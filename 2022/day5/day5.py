@@ -12,16 +12,22 @@ with open(input, 'r') as f:
     moves = data[data.index("\n\n")+2:].splitlines()
 
 
-def initialize_stack(stack_config):
-    num_of_stacks = int(stack_config[-1].split()[-1])
-    stack_config = stack_config[:-1][::-1]
-    stacks = [[] for i in range(num_of_stacks)]
+# def initialize_stack(stack_config):
+#     num_of_stacks = int(stack_config[-1].split()[-1])
+#     stack_config = stack_config[:-1][::-1]
+#     stacks = [[] for i in range(num_of_stacks)]
 
-    for line in stack_config:
-        for i in range(0, len(line), 4):
-            if line[i+1].isalpha():
-                stacks[i//4].append(line[i+1])
-    return stacks
+#     for line in stack_config:
+#         for i in range(0, len(line), 4):
+#             if line[i+1].isalpha():
+#                 stacks[i//4].append(line[i+1])
+#     return stacks
+
+
+def initialize_stack(stack_config):
+    stack_config = stack_config[:-1][::-1]
+    return [[c for c in a if c != " "]
+            for i, a in enumerate(zip(*stack_config)) if i % 4 == 1]
 
 
 def move_cargo(stacks, cratemover=9000):
