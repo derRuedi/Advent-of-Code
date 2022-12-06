@@ -13,5 +13,6 @@ else
   mv "description_dayX.txt" "description_day$day.txt"
 fi
 
+code *
 
 
