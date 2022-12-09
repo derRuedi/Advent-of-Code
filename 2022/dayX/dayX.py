@@ -4,7 +4,9 @@
 '''
 
 # input from website
-with open(f'input.txt', 'r') as f:
+sample_input = False
+input = 'sample_input.txt' if sample_input else 'input.txt'
+with open(input, 'r') as f:
     data = f.read().splitlines()
 
 for line in data:
