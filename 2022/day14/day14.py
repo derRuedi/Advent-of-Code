@@ -6,7 +6,7 @@
 from termcolor import colored
 
 # input from website
-sample_input = True
+sample_input = False
 input = 'sample_input.txt' if sample_input else 'input.txt'
 with open(input, 'r') as f:
     data = [line.split(" -> ") for line in f.read().splitlines()]
@@ -22,18 +22,24 @@ for p in data:
         xs.append(int(x))
         ys.append(int(y))
 
+part_2 = True
+print_part1 = False
+print_part2 = False
+
+# add "infinite" floor (it just needs to "hold" the pyramid of sand --> "height of the pyramid x 2 - 1")
+if part_2:
+    floor_x = (max(ys) + 2) * 2 - 1
+    floor_y = max(ys) + 2
+    data.append([f"{500-floor_x//2-1},{floor_y}",
+                f"{500+floor_x//2+1},{floor_y}"])
+    xs.append(500-floor_x//2-1)
+    xs.append(500+floor_x//2+1)
+    ys.append(floor_y)
 
 min_x = min(xs)
 max_x = max(xs)
-
 min_y = min(ys)
 max_y = max(ys)
-
-print("min_x", min_x)
-print("max_x", max_x)
-
-print("min_y", min_y)
-print("max_y", max_y)
 
 
 def print_matrix(matrix):
@@ -59,7 +65,7 @@ def draw_line(paths):
         else:
             x = 1
 
-        for j in range(max(abs(stop_x-start_x), abs(stop_y-start_y))+1):
+        for j in range(max(stop_x-start_x, stop_y-start_y)+1):
             matrix[start_y + y*j][start_x + x*j - min_x] = "#"
 
 
@@ -74,12 +80,11 @@ matrix[source[1]][source[0] - min(xs)] = "+"
 for paths in data:
     draw_line(paths)
 
-# print matrix
-# print_matrix(matrix)
 
 # drop sand
 count = 0
 stop = False
+part1_solved = False
 while not stop:
     sand_position = list(source)
     moving_possible = True
@@ -88,9 +93,14 @@ while not stop:
         down = (current_x, current_y + 1)
         left_down = (current_x - 1, current_y+1)
         right_down = (current_x + 1, current_y + 1)
-        if down[1] > len(matrix) - 1:
-            stop = True
-            break
+        if not part1_solved and down[1] > max_y - 2:
+            part1_solved = True
+            if print_part1:
+                print_matrix(matrix)
+            result_part1 = count
+            if not part_2:
+                stop = True
+                break
         if matrix[down[1]][down[0] - min_x] == ".":
             sand_position = down
         elif matrix[left_down[1]][left_down[0] - min_x] == ".":
@@ -99,10 +109,15 @@ while not stop:
             sand_position = right_down
         else:
             matrix[sand_position[1]][sand_position[0] - min_x] = "o"
+            if sand_position == list(source):
+                stop = True
+                result_part2 = count + 1
+                if print_part2:
+                    print_matrix(matrix)
+                break
             moving_possible = False
     count += 1
 
-# print matrix
-print_matrix(matrix)
 
-print(count-1)
+print("result part 1:", result_part1)
+print("result part 2:", result_part2)
