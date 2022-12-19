@@ -3,6 +3,7 @@
     https://adventofcode.com/2022/day/15
 '''
 
+from collections import defaultdict
 import re
 from termcolor import colored
 
@@ -45,6 +46,46 @@ for sbd in sensors_beacons_distance:
 
 # part 1
 print(len(value_set))
+
+# -------------------------
+
+# part 2
+maximum_search_area = 4000000
+# tuning frequency = multiplying the distress beacon's x coordinate by "maximum_search_area" and then adding its y coordinate
+surrounding_area = defaultdict(int)
+
+for sbd in sensors_beacons_distance:
+    # we need to look around the area covered by the sensors
+    distance = sbd["distance"] + 1
+    for point in range(distance):
+        point_upper_right = (sbd["sensor"][0] +
+                             (distance - point),  sbd["sensor"][1] - point)
+        point_upper_left = (sbd["sensor"][0] -
+                            (distance - point),  sbd["sensor"][1] - point)
+        point_bottom_right = (sbd["sensor"][0] +
+                              (distance - point),  sbd["sensor"][1] + point)
+        point_bottom_left = (sbd["sensor"][0] -
+                             (distance - point),  sbd["sensor"][1] + point)
+
+        if 0 <= point_upper_right[0] <= maximum_search_area and 0 <= point_upper_right[1] <= maximum_search_area:
+            surrounding_area[point_upper_right] += 1
+        if 0 <= point_upper_left[0] <= maximum_search_area and 0 <= point_upper_left[1] <= maximum_search_area:
+            surrounding_area[point_upper_left] += 1
+        if 0 <= point_bottom_right[0] <= maximum_search_area and 0 <= point_bottom_right[1] <= maximum_search_area:
+            surrounding_area[point_bottom_right] += 1
+        if 0 <= point_bottom_left[0] <= maximum_search_area and 0 <= point_bottom_left[1] <= maximum_search_area:
+            surrounding_area[point_bottom_left] += 1
+
+for p in sorted(surrounding_area, reverse=True, key=lambda x: surrounding_area[x]):
+    point_in_sensor = False
+    for sbd in sensors_beacons_distance:
+        distance = sbd["distance"]
+        if abs(sbd["sensor"][0] - p[0]) + abs(sbd["sensor"][1] - p[1]) <= distance:
+            point_in_sensor = True
+            break
+    if not point_in_sensor:
+        # tuning frequency = multiplying the distress beacon's x coordinate by "maximum_search_area" and then adding its y coordinate
+        print(int(p[0] * maximum_search_area + p[1]))
 
 
 # --------------------------------------------------------------------------------------------------------
