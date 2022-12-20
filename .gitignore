@@ -168,4 +168,7 @@ cython_debug/
 poetry.toml
 
 
-# End of https://www.toptal.com/developers/gitignore/api/python.DS_Store
+# End of https://www.toptal.com/developers/gitignore/api/python
+
+# don't bother about mac-specific .DS_Store files
+.DS_Store
