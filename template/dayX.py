@@ -1,6 +1,6 @@
 '''
-    Advent of Code 2022
-    https://adventofcode.com/2022/day/{day}
+    Advent of Code {year}
+    https://adventofcode.com/{year}/day/{day}
 '''
 
 # input from website
