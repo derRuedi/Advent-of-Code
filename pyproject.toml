@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 termcolor = "^2.1.1"
+advent-of-code-data = "^2.0.1"
 
 
 [build-system]
