@@ -1,5 +1,25 @@
 #!/bin/bash
 
+# export AOC_SESSION=53616c7465645f5fd8c7c6825cf548242e4963c09cff82070279cc5be4c31fee2d1c28f86fd31866d8214bc98293eb6506c6eda64de8abb90a09c985e517ec8d
+
+
+TEMPLATE=`cat <<-EOM
+'''
+    Advent of Code {year}
+    https://adventofcode.com/{year}/day/{day}
+'''
+
+# input from website
+sample_input = False
+input = 'day{day}_sample_input.txt' if sample_input else 'day{day}.txt'
+with open(input, 'r') as f:
+    data = f.read().splitlines()
+
+for line in data:
+    print(line)
+EOM`
+
+
 if [ $# -lt 1 ] || [ $# -gt 2 ]
 then
   echo $#
@@ -12,11 +32,11 @@ if [ $# -eq 1 ]
 then
   year=`date +"%Y"`
 else
-  year=$2
+  year="$2"
 fi
 
-day=$1
-dir="$year/day$1"
+day="$1"
+dir="${year}/day${day}"
 
 if [[ -d $dir ]]
 then
@@ -24,13 +44,18 @@ then
 else
   echo "Create AoC directory and skeleton files; have fun coding!"
   mkdir -p "$dir"
-  cp -R template/ "$dir"
   cd "$dir"
-  sed -i "" -e "s/{day}/$day/" -e "s/{year}/$year/g" "dayX.py"
-  mv "dayX.py" "day$day.py"
-  mv "description_dayX.txt" "description_day$day.txt"
+  # create the python file
+  echo "$TEMPLATE" | sed -e "s/{day}/${day}/g" -e "s/{year}/${year}/g" > "day${day}.py"
+  
+  # create the input data file so that it exists no matter what
+  touch "day${day}.txt"
+  # if possible, get the data
+  aocd "$day" "$year" > "day${day}.txt"
+  # create the description file so that it exists no matter what
+  touch "day${day}_description.txt"
+  # if possible, get the data
+  aocd "$day" "$year" --example-parser simple >> "day${day}_description.txt"
+  # open everything in VS Code
+  code *
 fi
-
-code *
-
-
