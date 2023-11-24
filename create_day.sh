@@ -59,5 +59,5 @@ else
   # if possible, get the data
   aocd "$day" "$year" --example-parser simple >> "day${day}_sample.txt"
   # open everything in VS Code
-  code *
+  code ../../
 fi
