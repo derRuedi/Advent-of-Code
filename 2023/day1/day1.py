@@ -75,6 +75,29 @@ def get_sums2_better(data):
     return my_sum
 
 
+def get_sums2_regex(data):
+    my_sum = 0
+    r = '1|2|3|4|5|6|7|8|9|one|two|three|four|five|six|seven|eight|nine'
+    numbers = {
+        "one": "1",
+        "two": "2",
+        "three": "3",
+        "four": "4",
+        "five": "5",
+        "six": "6",
+        "seven": "7",
+        "eight": "8",
+        "nine": "9"
+    }
+    for line in data:
+        nums = re.findall(rf'(?=({r}))', line)
+        my_sum += int((nums[0] if nums[0].isdigit() else numbers[nums[0]]) +
+                      (nums[-1] if nums[-1].isdigit() else numbers[nums[-1]]))
+    return my_sum
+
+
 print(get_sums(data))
+
 print(get_sums2(data))
 print(get_sums2_better(data))
+print(get_sums2_regex(data))
