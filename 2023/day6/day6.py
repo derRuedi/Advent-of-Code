@@ -17,7 +17,7 @@ races = list(zip(data[0].split(), data[1].split()))[1:]
 def race_boat(time, distance):
     ways_to_win = 0
     for i in range(1, time):
-        travelled_distance = i * (time-i)
+        travelled_distance = i*time - i ** 2
         if travelled_distance > distance:
             ways_to_win += 1
     return ways_to_win
