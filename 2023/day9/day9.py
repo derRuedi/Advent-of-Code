@@ -18,9 +18,7 @@ def find_next_value(sequence):
     return find_next_value(s) + s[-1]
 
 
-# puzzle 1
 print(sum([find_next_value(seq) + seq[-1] for seq in data]))
 
-# reverse the history
 data = [line[::-1] for line in data]
 print(sum([find_next_value(seq) + seq[-1] for seq in data]))
