@@ -19,7 +19,8 @@ def is_report_safe(report: list):
     # are we within the boundaries for adjacent levels?
     if any(not (MIN_LEVEL_DIFFERENCE <= abs(difference) <= MAX_LEVEL_DIFFERENCE) for difference in differences):
         return False
-    # are all increasing or all decreasing (differences should not change sign)?
+    # are all increasing or all decreasing
+    # (differences should not change sign)?
     if min(differences) < 0 and max(differences) > 0:
         return False
     return True
