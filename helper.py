@@ -51,13 +51,25 @@ def bitwise_and(dec1: int, dec2: int, length=0) -> int:
 def bitwise_or(dec1, dec2, length=0) -> int:
     binary1 = dec_to_bin(dec1, length)
     binary2 = dec_to_bin(dec2, length)
-    bitwise_and_binary = ""
+    bitwise_or_binary = ""
     for i, x in enumerate(binary1):
         if binary1[i] == "1" or binary2[i] == "1":
-            bitwise_and_binary += "1"
+            bitwise_or_binary += "1"
         else:
-            bitwise_and_binary += "0"
-    return int(str(bitwise_and_binary), 2)
+            bitwise_or_binary += "0"
+    return int(str(bitwise_or_binary), 2)
+
+
+def bitwise_xor(dec1, dec2, length=0) -> int:
+    binary1 = dec_to_bin(dec1, length)
+    binary2 = dec_to_bin(dec2, length)
+    bitwise_xor_binary = ""
+    for i, x in enumerate(binary1):
+        if (binary1[i] == "1" and binary2[i] == "0") or ((binary1[i] == "0" and binary2[i] == "1")):
+            bitwise_xor_binary += "1"
+        else:
+            bitwise_xor_binary += "0"
+    return int(str(bitwise_xor_binary), 2)
 
 
 def bitwise_lshift(dec: int, amount: int, length=0) -> int:
