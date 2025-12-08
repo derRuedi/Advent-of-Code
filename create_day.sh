@@ -10,7 +10,7 @@ TEMPLATE=`cat <<-EOM
 '''
 
 # input from website
-sample_input = False
+sample_input = True
 input = 'day{day}_sample.txt' if sample_input else 'day{day}.txt'
 with open(input, 'r') as f:
     data = f.read().splitlines()
